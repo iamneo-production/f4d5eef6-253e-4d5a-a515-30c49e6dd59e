@@ -62,3 +62,18 @@ export const bookBikeApiCall =async (bikeId)=>{
     console.log(data.data+" "+bikeId)
    return data.data;
 }   
+
+export const userBookingsApiCall =async ()=>{
+    const payload={
+        season_url : 'https://8080-eabfedcfdeaccdfbbdbecfcbbdeadbfdcfe.examlyiopb.examly.io/user/bookings/',
+        authentication:{
+            auth:{
+                username:"subhodip@gmail.com",
+                password:"Subhodip@123"
+            }
+        }
+    }
+
+    const data =await axios.get(payload.season_url,payload.authentication);
+   return data.data;
+}
