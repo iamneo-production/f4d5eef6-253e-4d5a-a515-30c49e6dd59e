@@ -12,7 +12,7 @@ export default function Profile(){
         error:""
     });
 
-    useEffect(async ()=>{
+    const apiCallHandler =async ()=>{
         const temp = await userProfileApiCall();
         if(temp.length!==0||temp!==undefined){
             setProfileDetails({
@@ -26,6 +26,10 @@ export default function Profile(){
         else{
             setProfileDetails({error:"No user found"})
         }
+    }
+
+    useEffect(()=>{
+        apiCallHandler();
 
     },[])
 

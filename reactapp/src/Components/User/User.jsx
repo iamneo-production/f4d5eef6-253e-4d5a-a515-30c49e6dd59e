@@ -11,6 +11,7 @@ import BikeDetails from "./BikeDetails/BikeDetails";
 import NavBar from "./Navbar/NavBar"
 import Bookings from "./Bookings/Bookings";
 import Profile from "./Profile/Profile";
+import EditProfile from "./EditProfile/EditProfile";
 
 export default function User(){
     const [apiData,setApiData] = useState([]);
@@ -23,6 +24,7 @@ export default function User(){
         <Route exact path="/bikeDetails/:id" element={<BikeDetails />}/>
         <Route exact path="/bookings" element={<Bookings />}/>
         <Route exact path="/profile" element={<Profile />}/>
+        <Route exact path="/editProfile" element={<EditProfile />} />
         </Routes>
       
     </Router>

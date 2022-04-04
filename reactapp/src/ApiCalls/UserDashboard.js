@@ -109,3 +109,23 @@ export const userProfileApiCall =async ()=>{
     const data =await axios.get(payload.season_url,payload.authentication);
    return data.data;
 }
+export const userEditProfileApiCall =async (bikeID,username,email,age,mobileNumber)=>{
+    const payload={
+        season_url : 'https://8080-eabfedcfdeaccdfbbdbecfcbbdeadbfdcfe.examlyiopb.examly.io/user/eidtProfile/'+parseInt(bikeID),
+        authentication:{
+            auth:{
+                username:"subhodip@gmail.com",
+                password:"Subhodip@123"
+            }
+        },
+        body:{
+            email:email,
+            username:username,
+            mobileNumber:mobileNumber,
+            age:age
+        }
+    }
+
+    const data =await axios.get(payload.season_url,payload.body,payload.authentication);
+   return data.data;
+}
