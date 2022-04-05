@@ -5,7 +5,7 @@ const NavBar = () => {
     return (
 <nav className="navbar navbar-expand-lg custom-navbar" >
   <div className="container-fluid">
-    <Link clasNames="navbar-brand" to="#">Rentx-Bike</Link>
+    <Link className="navbar-brand" to="#">Rentx-Bike</Link>
     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span className="navbar-toggler-icon"></span>
     </button>
@@ -21,8 +21,8 @@ const NavBar = () => {
           <Link className="nav-link" to="/bookings">My- Booking</Link>
         </li>
       </ul>
-      <form class="d-flex">
-        <button class="btn custom-btn" type="submit">Logout</button>
+      <form className="d-flex">
+        <button className="btn custom-btn" type="submit">Logout</button>
       </form>
      
     </div>

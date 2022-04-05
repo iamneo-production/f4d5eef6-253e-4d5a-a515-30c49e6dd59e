@@ -4,11 +4,7 @@ import "./Bookings.jsx";
 
 export default function Bookings(){
     const [bookings,setBookings]=useState({
-        bikeID:"",
-        companyName:"",
-        bikeType:"",
-        Days:"",
-        BikePrice:"",
+        bikesInfo:[],
         error:""
     })
 
@@ -42,52 +38,47 @@ export default function Bookings(){
         if(temp.length!==0){
             console.log(await temp);
             setBookings({
-                bikeID:await temp[0].bikeID,
-                companyName:await temp[0].companyName,
-                bikeType:await temp[0].bikeStatus,
-                Days:"days",
-                BikePrice:await temp[0].bikePrice,
+                bikesInfo:await temp,
                 error:""
             })
-            console.log(await bookings)
         }
         
         else
         setBookings({
-            bikeID:"",
-            companyName:"",
-            bikeType:"",
-            Days:"",
-            BikePrice:"",
+            bikesInfo:[],
             error:"No bookings found"
         })
         
-    },[])
+    },[isSending])
 
     return(
         <div className="user_bookings">
              {statusMssg.show&& <div class="alert alert-success" role="alert">
                     {statusMssg.mssg}
              </div>}
-            {bookings!=="No bookings found"&&bookings.bikeID!=""?<div className="card-body">
+            {bookings.error!=="No bookings found"?
+            bookings.bikesInfo&&bookings.bikesInfo.map((element,index)=>{
+                return <div key={index} className="card-body">
                 <div className="companyName">
-                    {bookings.companyName}
+                    {element.companyName}
                 </div>
                 <div className="companyName">
-                    {bookings.bikeType}
-                </div>
-                
-                <div className="companyName">
-                    {bookings.Days}
+                    {element.bikeModelName}
                 </div>
                 
                 <div className="companyName">
-                    {bookings.BikePrice}
+                    {"Days"}
+                </div>
+                
+                <div className="companyName">
+                    {element.bikePrice}
                 </div>
                 <button className="btn btn-primary" disabled={isSending} 
-                onClick={()=>unBookBikeHandler(bookings.bikeID)}>UnBook Bike</button>
+                onClick={()=>unBookBikeHandler(element.bikeID)}>UnBook Bike</button>
                 
-            </div>:<div>No bookings found</div>}
+            </div>
+            })
+            :<div>No bookings found</div>}
         </div>
     )
 }

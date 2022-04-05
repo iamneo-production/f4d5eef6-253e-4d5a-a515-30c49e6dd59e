@@ -27,7 +27,8 @@ import com.examly.springapp.Models.BikeModel;
 import com.examly.springapp.Models.UserBookingsModel;
 import com.examly.springapp.Models.UserModel;
 import com.examly.springapp.Models.AdminModel;
-
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import lombok.AllArgsConstructor;
 
@@ -37,6 +38,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 @RequestMapping("/user")
 @PreAuthorize("hasRole('ROLE_USER')")
+// @CrossOrigin(origins = "https://8081-eabfedcfdeaccdfbbdbecfcbbdeadbfdcfe.examlyiopb.examly.io/",methods = {RequestMethod.GET,RequestMethod.POST,RequestMethod.DELETE,RequestMethod.PUT})
 public class UserController {
 	
 	
@@ -178,63 +180,52 @@ public class UserController {
 		return userRepo.findByEmail(loggedInUser.getName()).get();
 	}
 	
-	@PutMapping("/editProfile")
+	@PostMapping("/editProfile")
 	public String editUserProfile(Principal loggedInUser,@RequestBody UserModel responseUser)
 	{
+		//storing the user if exists for email entered by user while edit
 		Optional<UserModel> responseUserOpt=userRepo.findAll().stream()
-		.filter(user -> user.getEmail().hashCode()==responseUser.getEmail().hashCode())
-		.findFirst(); 
-
+					.filter(user -> user.getEmail().hashCode()==responseUser.getEmail().hashCode())
+					.findFirst(); 
+		
+		//info of currently logged in user
 		Optional<UserModel> userOpt=userRepo.findAll().stream()
-		.filter(user->user.getEmail().hashCode()==loggedInUser.getName().hashCode())
-		.findFirst();
-		// System.out.println("responseUserOpt :"+responseUserOpt.get());
-		// System.out.println("userOpt :"+userOpt.get());
-		if(responseUserOpt.isPresent()&&userOpt.isPresent())
+					.filter(user->user.getEmail().hashCode()==loggedInUser.getName().hashCode())
+					.findFirst();
+		
+		if(responseUserOpt.isPresent()&&responseUserOpt.get().getId()!=userOpt.get().getId())
 		{
-			if(responseUserOpt.get().getId()!=userOpt.get().getId()) {
-			if(responseUserOpt.get().getEmail().hashCode()==responseUser.getEmail().hashCode())
-				return "email already exists";
-			}
-			else {
-			System.out.println("Entered here");
+			return "email already exist";
+		}
+		else {
+			
+			//updating login model
 			LoginModel loginModel = loginRepo.findAll().stream()
-					.filter(login -> login.getUsername().hashCode()==userOpt.get().getEmail().hashCode())
+					.filter(login -> login.getUsername().hashCode()==loggedInUser.getName().hashCode())
 					.findFirst().get();
 			
 			loginModel.setEmail(responseUser.getEmail());
 			loginRepo.save(loginModel);
-	
+			
+			//updating user model
 			responseUser.setPassword(userOpt.get().getPassword());
 			responseUser.setUserRole(Roles.USER.name());
 			responseUser.setId(userOpt.get().getId());
-	
+			
 			userRepo.save(responseUser);
+
+			//updating user booking model
+			Optional<UserBookingsModel> bookingsOpt=bookingsRepo.findAll().stream()
+						.filter(userBooking -> userBooking.getUserEmail().hashCode()==loggedInUser.getName().hashCode())
+						.findFirst();
+			if(bookingsOpt.isPresent()) {
+				bookingsOpt.get().setUserEmail(responseUser.getEmail());
+				bookingsRepo.save(bookingsOpt.get());
+			}
+
 			return "User profile updated succesfully";
 		}
-		}
-		else {
-			System.out.println("Entered here");
-			Optional<LoginModel> loginModel = loginRepo.findAll().stream()
-					.filter(login -> login.getUsername().hashCode()==userOpt.get().getEmail().hashCode())
-					.findFirst();
-			if(loginModel.isPresent()){
-			loginModel.get().setEmail(responseUser.getEmail());
-			loginRepo.save(loginModel.get());
-
-			responseUser.setPassword(userOpt.get().getPassword());
-			responseUser.setUserRole(Roles.USER.name());
-			responseUser.setId(userOpt.get().getId());
-
-			userRepo.save(responseUser);
-			return "User profile updated succesfully";
-			}
-			else{
-				return "unauthorized access";
-			}
-	}
-
-	return "Some error occured";
+		
 		
 	}
 }

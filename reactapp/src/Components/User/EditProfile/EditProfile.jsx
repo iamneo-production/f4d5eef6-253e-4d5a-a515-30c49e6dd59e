@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react"
+import React, {  useEffect, useState } from "react"
 import { Link } from "react-router-dom";
 import { userEditProfileApiCall, userProfileApiCall } from "../../../ApiCalls/UserDashboard";
 import "./EditProfile.css"
@@ -14,29 +14,27 @@ export default function EditProfile(){
         error:""
     });
  
-    const [username,setUsername]=useState("")
+    const [username,setUsername]=useState("");
+    const [email,setEmail]=useState("");
+    const [age,setAge]=useState("");
+    const [mobileNumber,setMobileNumber]=useState("")
 
     const [statusMssg,setStatusMssg]=useState({
         show:false,
         mssg:""
     })
-    const [isSending, setIsSending] = useState(false);
 
-    const editProfileHandler = useCallback(async (event,bikeID)=>{
+    const editProfileHandler = async (event)=>{
         event.preventDefault();
-        // don't send again while we are sending
-        if (isSending) return
-        // update state
-        setIsSending(true)
-        // send the actual request
-        console.log(profileDetails)
-       const mssg= await userEditProfileApiCall(bikeID,profileDetails);
+        
+        console.log(username+" "+email+" "+age+" "+mobileNumber);
+       const mssg= await userEditProfileApiCall(username,email,age,mobileNumber);
        setStatusMssg({
         show:true,
         mssg:await mssg
-    })
-    setIsSending(false)
-    },[isSending])
+        })
+ 
+    }
 
 
     const apiCallHandler =async ()=>{
@@ -50,51 +48,27 @@ export default function EditProfile(){
                 age:await temp.age,
                 error:""
             })
+            setUsername(await temp.username);
+            setEmail(await temp.email);
+            setAge(await temp.age);
+            setMobileNumber(await temp.mobileNumber);
         }
         else{
             setProfileDetails({error:"No user found"})
         }
     }
     const setUsernameHandler=(e)=>{
-        setProfileDetails({
-                id:profileDetails.id,
-                email:profileDetails.email,
-                username:e.target.value,
-                mobileNumber:profileDetails.mobileNumber,
-                age:profileDetails.age,
-                error:"",
-        })
-        console.log(profileDetails.username)
+        setUsername(e.target.value)
+        console.log(username)
     }
     const setEmailHandler=(e)=>{
-        setProfileDetails({
-            id:profileDetails.id,
-            email:e.target.value,
-            username:profileDetails.username,
-            mobileNumber:profileDetails.mobileNumber,
-            age:profileDetails.age,
-            error:"",
-    })
+        setEmail(e.target.value)
     }
     const setAgeHandler=(e)=>{
-        setProfileDetails({
-            id:profileDetails.id,
-            email:profileDetails.email,
-            username:profileDetails.username,
-            mobileNumber:profileDetails.mobileNumber,
-            age:e.target.value,
-            error:"",
-    })
+        setAge(e.target.value);
     }
     const setMobileNumberHandler=(e)=>{
-        setProfileDetails({
-            id:profileDetails.id,
-            email:profileDetails.email,
-            username:profileDetails.username,
-            mobileNumber:e.target.value,
-            age:profileDetails.age,
-            error:"",
-    })
+        setMobileNumber(e.target.value);
     }
     useEffect(()=>{
         apiCallHandler();
@@ -112,31 +86,31 @@ export default function EditProfile(){
             <div className="inputContainer">
                 <label htmlFor="username">Name</label>
                 <input type="text" placeholder="Enter your name" 
-                value={profileDetails.username} 
+                value={username} 
                 onChange={setUsernameHandler}/>
             </div>
             <div className="inputContainer">
                 <label htmlFor="email">Email</label>
                 <input type="email" id="email" placeholder="Enter your email" 
-                value={profileDetails.email} 
+                value={email} 
                 onChange={setEmailHandler}/>
             </div>
             
             <div className="inputContainer">
                 <label htmlFor="age">Age</label>
                 <input type="number" id="age" placeholder="Enter your age" 
-                value={profileDetails.age}
+                value={age}
                 onChange={setAgeHandler}/>
             </div>
             <div className="inputContainer">
                 <label htmlFor="mobileNumber">Mobile Number</label>
                 <input type="tel" id="mobileNumber" placeholder="Enter your mobile number" 
-                value={profileDetails.mobileNumber}
+                value={mobileNumber}
                 onChange={setMobileNumberHandler}/>
             </div>
-            <form className="inputButton">
+            <div className="inputButton">
             <button onClick={(e)=>editProfileHandler(e,profileDetails.id)}>Save Changes</button>
-            </form>
+            </div>
         </form>
     )
 }
