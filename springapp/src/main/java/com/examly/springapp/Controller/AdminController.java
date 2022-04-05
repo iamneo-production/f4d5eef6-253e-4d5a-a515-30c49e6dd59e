@@ -165,18 +165,12 @@ public class AdminController {
 	
 	//ADMIN PROFILE CRUD OPERATION STARTED
 	
-	@GetMapping("/profile/{adminID}")
-	public AdminModel adminProfile(Principal loggedInUser,@PathVariable Long adminID) {
-		Optional<AdminModel> adminModel = adminRepo.findById(adminID);
+	@GetMapping("/profile")
+	public AdminModel adminProfile(Principal loggedInUser) {
+		return adminRepo.findAll().stream()
+					.filter(admin -> admin.getEmail().hashCode()==loggedInUser.getName().hashCode())
+					.findFirst().get();
 		
-		boolean checkAuthorization = adminModel.get().getEmail().hashCode()==loggedInUser.getName().hashCode();
-		
-		if(checkAuthorization&&adminModel.isPresent())
-		return adminModel.get();
-		else
-		{
-			throw new UsernameNotFoundException(String.format("Illegal Access by %s", loggedInUser.getName()));
-		}
 		
 	}
 	
