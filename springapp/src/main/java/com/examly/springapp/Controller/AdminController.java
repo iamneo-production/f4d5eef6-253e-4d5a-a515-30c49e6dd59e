@@ -78,7 +78,10 @@ public class AdminController {
 //Bike CRUD operations started	
 	@RequestMapping(method=RequestMethod.POST,value="/addBike")
 	public String addBike(Principal loggedInUser,@RequestBody BikeModel bikeModel) {
-		
+		if(bikeModel.getBikeModelName().isEmpty()|bikeModel.getBikeNo().isEmpty()||
+				bikeModel.getPrice().isEmpty()||bikeModel.getType().isEmpty()) {
+			return "Fields cannot be empty";
+		}
 		//retrieves the seller name or admin email(i.e., username) from database
 //		System.out.println(loggedInUser);
 		String adminUsername = loggedInUser.getName();
@@ -88,7 +91,8 @@ public class AdminController {
 									.findFirst().get();
 		boolean check = checkBikeExistence(bikeModel);
 		//sets the admin ID in bikeModel
-		bikeModel.setAdminID(adminModel.getId()+"");		
+		bikeModel.setAdminID(adminModel.getId()+"");
+		bikeModel.setStatus("Available");		
 		bikeModel.setCompanyName(adminModel.getCompanyName());
 		if(!check) {
 		bikeRepo.save(bikeModel); 

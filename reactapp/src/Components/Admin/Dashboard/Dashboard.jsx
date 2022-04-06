@@ -1,6 +1,6 @@
-import React, { useEffect,useState } from "react";
+import React, { useCallback, useEffect,useState } from "react";
 import { Link } from "react-router-dom";
-import { adminDashboardApiCall } from "../../../ApiCalls/AdminDashboard";
+import { adminDashboardApiCall, adminDeleteBikeApiCall } from "../../../ApiCalls/AdminDashboard";
 import "./Dashboard.css"
 
 export default function Dashboard(){
@@ -11,6 +11,21 @@ export default function Dashboard(){
     })
 
     const [earnings,setEarnings]=useState(0);
+    const [statusMssg,setStatusMssg] = useState({
+        show:false,
+        mssg:""
+    })
+    const [isSending,setIsSending]=useState(false)
+    const deleteBikeHandler =useCallback(async(bikeID)=>{
+        if (isSending) return
+        setIsSending(true)
+        const message = await  adminDeleteBikeApiCall(bikeID)
+        setStatusMssg({
+            show:true,
+            mssg:await message
+        })
+        setIsSending(false)
+    },[isSending])
 
     const apiCallHanlder=async ()=>{
         const temp = await adminDashboardApiCall();
@@ -37,6 +52,9 @@ export default function Dashboard(){
     },[])
     return(
         <div className="admin_dashboard">
+            {statusMssg.show&& <div className="alert alert-success custom-alert" role="alert">
+                    {statusMssg.mssg}
+             </div>}
             <div className="leftContainer">
                 {dashboardData.data.length!==0?<h1>{dashboardData.data[0].companyName}</h1>:""}
                 {dashboardData.data&&dashboardData.data.map((element,index)=>{
@@ -58,8 +76,8 @@ export default function Dashboard(){
                             Type&nbsp;:&nbsp;{element.type}
                         </div>
                         <div className="operations">
-                            <div className="edit btn btn-primary mx-4">Edit</div>
-                            <div className="delete btn btn-danger mx-4">Delete</div>
+                            <div className="edit btn btn-primary mx-4" >Edit</div>
+                            <div className="delete btn btn-danger mx-4" onClick={()=>deleteBikeHandler(element.bikeID)}>Delete</div>
                         </div>
                     </div>        
                 })}

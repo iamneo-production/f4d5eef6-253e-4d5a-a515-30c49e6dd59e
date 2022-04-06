@@ -29,3 +29,35 @@ export const adminDashboardApiCall=async()=>{
     })
     return data.data;
 } 
+
+export const adminAddBikeApiCall =async(bikeName,bikeNumber,bikePrice,bikeType)=>{
+    const bikeData = {
+        bikeModelName:await bikeName,
+        bikeNo:await bikeNumber,
+        price:await bikePrice,
+        type:await bikeType
+    }
+    console.log(bikeData,bikeName)
+    const data = await axios.post(season_url+"/addBike",bikeData,{
+        headers:{
+            "Authorization":`Basic ${token}`,
+            "Accept-Language":"en",
+            "Content-Type":"application/json",
+            "Access-Control-Allow-Origins":"*",
+        }
+    })
+    return data.data;
+}
+
+export const adminDeleteBikeApiCall=async(bikeID)=>{
+    console.log(bikeID)
+    const data = await axios.delete(season_url+"/deleteBike/"+parseInt(bikeID),{
+        headers:{
+            "Authorization":`Basic ${token}`,
+            "Accept-Language":"en",
+            "Content-Type":"application/json",
+            "Access-Control-Allow-Origins":"*",
+        }
+    })
+    return data.data;
+} 

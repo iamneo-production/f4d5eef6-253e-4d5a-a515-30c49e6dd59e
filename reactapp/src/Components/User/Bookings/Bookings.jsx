@@ -16,18 +16,15 @@ export default function Bookings(){
     })
   
   const unBookBikeHandler = useCallback(async (bikeID) => {
-    // don't send again while we are sending
     if (isSending) return
-    // update state
     setIsSending(true)
-    // send the actual request
     const mssg =await unBookBikeApiCall(bikeID);
         
     setStatusMssg({
         show:true,
         mssg:await mssg
     })
-    // once the request is sent, update state again
+    
     setIsSending(false)
   }, [isSending])
 
@@ -53,7 +50,7 @@ export default function Bookings(){
 
     return(
         <div className="user_bookings">
-             {statusMssg.show&& <div class="alert alert-success" role="alert">
+             {statusMssg.show&& <div className="alert alert-success" role="alert">
                     {statusMssg.mssg}
              </div>}
             {bookings.error!=="No bookings found"?

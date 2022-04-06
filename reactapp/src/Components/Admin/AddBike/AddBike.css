@@ -5,6 +5,15 @@
     width:600px;
     height:auto;
     padding: 1rem;
+    position: relative;
+}
+
+.custom-alert{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width:100%;
+    height:auto;
 }
 .admin_addBike .backBtn{
     width:80%;
