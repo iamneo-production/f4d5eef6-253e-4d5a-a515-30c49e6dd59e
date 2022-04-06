@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const usernameCredentials = "admin2@gmail.com";
+const usernameCredentials = "admin1@gmail.com";
 const passwordCredentials = "Admin@123"
 const token = Buffer.from(`${usernameCredentials}:${passwordCredentials}`, 'utf8').toString('base64')
 console.log(token)
