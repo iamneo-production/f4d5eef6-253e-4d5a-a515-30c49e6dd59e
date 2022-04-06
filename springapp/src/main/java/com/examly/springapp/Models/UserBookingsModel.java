@@ -22,13 +22,15 @@ public class UserBookingsModel {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE)
 	private Long id;
 	private String userEmail;
+    private Long userID;
 	private Long bikeID;
 	private String companyName;
 	private String bikePrice;
     private String bikeModelName;
 	
-	public UserBookingsModel(String userEmail,Long bikeID,String companyName,String bikePrice,String bikeModelName) {
-		this.userEmail=userEmail;
+	public UserBookingsModel(Long userID,String userEmail,Long bikeID,String companyName,String bikePrice,String bikeModelName) {
+		this.userID=userID;
+        this.userEmail=userEmail;
 		this.bikeID=bikeID;
 		this.companyName=companyName;
 		this.bikePrice=bikePrice;
@@ -37,6 +39,38 @@ public class UserBookingsModel {
 
   
  
+
+
+    public Long getUserID() {
+        return userID;
+    }
+
+
+
+
+
+    public void setUserID(Long userID) {
+        this.userID = userID;
+    }
+
+
+
+
+
+    public String getBikeModelName() {
+        return bikeModelName;
+    }
+
+
+
+
+
+    public void setBikeModelName(String bikeModelName) {
+        this.bikeModelName = bikeModelName;
+    }
+
+
+
 
 
     @Override

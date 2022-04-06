@@ -18,7 +18,7 @@ const NavBar = () => {
           <Link className="nav-link" to="/admin/profile">Profile</Link>
         </li>
         <li className="nav-item">
-          <Link className="nav-link" to="#">My- Booking</Link>
+          <Link className="nav-link" to="/admin/bookings">My- Booking</Link>
         </li>
       </ul>
       <form className="d-flex">

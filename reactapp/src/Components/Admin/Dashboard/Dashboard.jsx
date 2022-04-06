@@ -76,7 +76,7 @@ export default function Dashboard(){
                             Type&nbsp;:&nbsp;{element.type}
                         </div>
                         <div className="operations">
-                            <div className="edit btn btn-primary mx-4" >Edit</div>
+                            <Link to={"/admin/editBike/"+element.bikeID} className="edit btn btn-primary mx-4" >Edit</Link>
                             <div className="delete btn btn-danger mx-4" onClick={()=>deleteBikeHandler(element.bikeID)}>Delete</div>
                         </div>
                     </div>        

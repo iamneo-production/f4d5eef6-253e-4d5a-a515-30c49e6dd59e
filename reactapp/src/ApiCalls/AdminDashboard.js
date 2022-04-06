@@ -61,3 +61,48 @@ export const adminDeleteBikeApiCall=async(bikeID)=>{
     })
     return data.data;
 } 
+
+export const adminEditBikeApiCall =async(bikeID,bikeName,bikeNumber,bikePrice,bikeType)=>{
+    const bikeData = {
+        bikeModelName:await bikeName,
+        bikeNo:await bikeNumber,
+        price:await bikePrice,
+        type:await bikeType
+    }
+    console.log(bikeData)
+    const data = await axios.post(season_url+"/editBike/"+parseInt(bikeID),bikeData,{
+        headers:{
+            "Authorization":`Basic ${token}`,
+            "Accept-Language":"en",
+            "Content-Type":"application/json",
+            "Access-Control-Allow-Origins":"*",
+        }
+    })
+    return data.data;
+}
+
+export const adminGetBikeApiCall=async(bikeID)=>{
+   console.log(bikeID)
+    const data = await axios.get(season_url+"/getBike/"+parseInt(bikeID),{
+        headers:{
+            "Authorization":`Basic ${token}`,
+            "Accept-Language":"en",
+            "Content-Type":"application/json",
+            "Access-Control-Allow-Origins":"*",
+        }
+    })
+    return data.data;
+}
+
+export const adminGetUserBookingsApiCall=async()=>{
+    const data = await axios.get(season_url+"/getUserBookings",{
+        headers:{
+            "Authorization":`Basic ${token}`,
+            "Accept-Language":"en",
+            "Content-Type":"application/json",
+            "Access-Control-Allow-Origins":"*",
+        }
+    })
+    return data.data;
+}
+

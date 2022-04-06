@@ -70,12 +70,42 @@ public class AdminController {
 		else {
 			return null;
 		}
-		
-
+	}
+	//get user bookings
+	@GetMapping("/getUserBookings")
+	public List<UserBookingsModel> getUserBookings(Principal loggedInUser){
+		AdminModel am = adminRepo.findAll().stream()
+					.filter(admin -> admin.getEmail().hashCode()==loggedInUser.getName().hashCode())
+					.findFirst().get();
+		Optional<BikeModel> bm = bikeRepo.findAll().stream().filter(bike -> bike.getAdminID().equals(am.getId().toString())).findFirst();
+		if(bm.isPresent()) {
+			List<UserBookingsModel> ubmList = new ArrayList<>();
+			for(UserBookingsModel ubm : bookingsRepo.findAll())
+			{
+				if(bm.get().getBikeID()==ubm.getBikeID())
+					ubmList.add(ubm);
+			}
+			return ubmList;
+		}
+		else
+			return new ArrayList<>();
 	}
 	
 	
+	
 //Bike CRUD operations started	
+
+	@GetMapping("/getBike/{id}")
+	public BikeModel getBikeByID(@PathVariable Long id) {
+		Optional<BikeModel> bm = bikeRepo.findAll().stream()
+				.filter(bike -> bike.getBikeID()==id).findFirst();
+		
+		if(bm.isPresent())
+		return bm.get();
+		else
+		return new BikeModel();
+	}
+
 	@RequestMapping(method=RequestMethod.POST,value="/addBike")
 	public String addBike(Principal loggedInUser,@RequestBody BikeModel bikeModel) {
 		if(bikeModel.getBikeModelName().isEmpty()|bikeModel.getBikeNo().isEmpty()||
@@ -103,45 +133,32 @@ public class AdminController {
 			return "Bike already exists";
 	}
 	
-	@RequestMapping(method=RequestMethod.PUT,value="/editBike/{bikeID}")
+	@RequestMapping(method=RequestMethod.POST,value="/editBike/{bikeID}")
 	public String editBike(Principal loggedInUser,@PathVariable Long bikeID,@RequestBody BikeModel bikeModel) {
-		
 		Optional<BikeModel> checkBike = bikeRepo.findAll().stream()
 												.filter(bike -> (bikeModel.getBikeNo().hashCode() == bike.getBikeNo().hashCode())&&(bikeID!=bike.getBikeID())).findFirst();
 		
 		if(!checkBike.isPresent()) {
-		//retrieves the seller name or admin email(i.e., username) from database
-		String adminUsername = loggedInUser.getName();
+			BikeModel bm = bikeRepo.findById(bikeID).get();
+			//sets the admin ID in bikeModel
+			bikeModel.setBikeID(bikeID);
+			bikeModel.setCompanyName(bm.getCompanyName());
+			bikeModel.setAdminID(bm.getAdminID());
+			bikeModel.setStatus(bm.getStatus());
 		
-		//retrieves the model of admin for email
-		AdminModel adminModel = adminRepo.findAll().stream()
-							.filter(admin -> adminUsername.hashCode()==admin.getEmail().hashCode())
-							.findFirst().get();
-		
-		//sets the admin ID in bikeModel
-		bikeModel.setBikeID(bikeID);
-		bikeModel.setAdminID(adminModel.getId()+"");
-		
-		Optional<BikeModel> bike = bikeRepo.findById(bikeID);
-		
-		if(bike.isPresent())
-		{
-			if(bikeModel.getStatus().toLowerCase().hashCode()=="available".hashCode())
-			{
-				Optional<UserBookingsModel> userBookingsID = bookingsRepo.findAll().stream()
-									.filter(book -> bikeID == book.getBikeID()).findFirst();
-				if(userBookingsID.isPresent())						
-				bookingsRepo.deleteById(userBookingsID.get().getId());
+		Optional<UserBookingsModel> userBookingsID = bookingsRepo.findAll().stream()
+				.filter(book -> bikeID == book.getBikeID()).findFirst();
+			if(userBookingsID.isPresent()) {
+				userBookingsID.get().setBikePrice(bikeModel.getPrice());
+				bookingsRepo.save(userBookingsID.get());
 			}
-
+			
 			bikeRepo.saveAndFlush(bikeModel);
-		}
-		else
-			return "Bike with id not found";
 		}
 		else
 			return "Bike number already present";
 		return "bike edited succesfully";
+	
 	}
 	
 	@RequestMapping(method=RequestMethod.DELETE,value="/deleteBike/{bikeID}")

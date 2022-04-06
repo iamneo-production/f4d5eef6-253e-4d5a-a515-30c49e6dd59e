@@ -9,6 +9,8 @@ import NavBar from "./Navbar/NavBar";
 import Profile from "./Profile/Profile";
 import Dashboard from "./Dashboard/Dashboard";
 import AddBike from "./AddBike/AddBike";
+import EditBike from "./EditBike/EditBike";
+import Bookings from "./Bookings/Bookings";
 
 export default function Admin(){
     return (
@@ -18,6 +20,8 @@ export default function Admin(){
             <Route exact path="/admin/" element={<Dashboard/>}/>
             <Route exact path="/admin/profile" element={<Profile/>}/>
             <Route exact path="/admin/addBike" element={<AddBike/>}/>
+            <Route exact path="/admin/bookings" element={<Bookings/>}/>
+            <Route exact path="/admin/editBike/:id" element={<EditBike/>}/>
             </Routes>
         </Router>
     )

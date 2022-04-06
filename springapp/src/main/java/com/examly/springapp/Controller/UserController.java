@@ -114,13 +114,13 @@ public class UserController {
 	@PostMapping("/bookBike/{bikeID}")
 	public String bookBike(@PathVariable Long bikeID,Principal loggedInUser) {
 		Optional<BikeModel> bikeModel = bikeRepo.findById(bikeID);
+		Long userId = userRepo.findAll().stream().filter(user -> user.getEmail().hashCode()==loggedInUser.getName().hashCode()).findFirst().get().getId();
 		if(bikeModel.isPresent()) {
 			if(!bikeModel.get().getStatus().equals("Booked"))
 			{
 				bikeModel.get().setStatus("Booked");
 				bikeRepo.save(bikeModel.get());
-				bookingsRepo.save(new UserBookingsModel(loggedInUser.getName(),bikeID,
-									bikeModel.get().getCompanyName(),bikeModel.get().getPrice(),bikeModel.get().getBikeModelName()));
+				bookingsRepo.save(new UserBookingsModel(userId,loggedInUser.getName(),bikeID,bikeModel.get().getCompanyName(),bikeModel.get().getPrice(),bikeModel.get().getBikeModelName()));
 				return "Bike booked succesfully";
 			}
 			else
@@ -128,6 +128,7 @@ public class UserController {
 		}
 		
 		return "No Bike found with this ID";
+		
 		
 	}
 	
