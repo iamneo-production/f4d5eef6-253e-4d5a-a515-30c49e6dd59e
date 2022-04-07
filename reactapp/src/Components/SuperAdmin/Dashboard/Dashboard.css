@@ -1,0 +1,30 @@
+.custom-superAdminCard{
+    width:80%;
+    margin:1rem auto;
+    background-color: #F2F2F2;
+    border:none;
+    padding:1rem 0;
+}
+.superAdmin_switch{
+    width:fit-content;
+    border-radius: 12px;
+    margin:1rem auto;
+    background:#F2F2F2;
+    display: flex;
+    flex-direction: row;
+}
+
+.superAdmin_switch .getAdmins{
+    background-color: #ff4444;
+    color:white;
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+}
+
+.superAdmin_switch .getAdmins,
+.superAdmin_switch .getUsers{
+    padding:0.5rem 2rem;
+    font-size: 1.2rem;
+    width:fit-content;
+    cursor:pointer;
+}

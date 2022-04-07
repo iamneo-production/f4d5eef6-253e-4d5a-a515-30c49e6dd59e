@@ -1,6 +1,7 @@
 package com.examly.springapp.Controller;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Optional;
 
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,10 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.examly.springapp.Repositories.AdminRepository;
 import com.examly.springapp.Repositories.UserRepository;
+import com.examly.springapp.Repositories.BikeRepository;
 import com.examly.springapp.SecurityConfiguration.LoginModel;
 import com.examly.springapp.SecurityConfiguration.LoginRepository;
 import com.examly.springapp.Models.AdminModel;
 import com.examly.springapp.Models.UserModel;
+import com.examly.springapp.Models.BikeModel;
 
 import lombok.AllArgsConstructor;
 
@@ -27,7 +30,8 @@ public class SuperAdminController {
 	private final UserRepository userRepo;
 	private final AdminRepository adminRepo;
 	private final LoginRepository loginRepo;
-	
+	private final BikeRepository bikeRepo;
+
 	@GetMapping("/getAdmins")
 	public List<AdminModel> getAllAdmins(){
 		return adminRepo.findAll();
@@ -43,6 +47,13 @@ public class SuperAdminController {
 		return loginRepo.findAll();
 	}
 	
+	@GetMapping("/getBookings")
+	public List<BikeModel> getAllBookings(){
+		List<BikeModel> bmList = new ArrayList<>();
+		for(BikeModel bm : bikeRepo.findAll())
+			bmList.add(bm);
+		return bmList;
+	}
 	
 	@DeleteMapping("/deleteAdmin/{adminID}")
 	public String deleteAdmin(@PathVariable Long adminID) {
