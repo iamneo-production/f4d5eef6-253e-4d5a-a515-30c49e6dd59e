@@ -1,39 +1,19 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Navigate, Route} from "react-router-dom";
-import LoginForm from "./components/LoginForm";
-
-import AddBike from './components/AddBike';
-
-import SaveChange from './components/SaveChange';
 import './App.css';
-function App(){
+import Admin from './Components/Admin/Admin';
+import SuperAdmin from './Components/SuperAdmin/SuperAdmin';
+import User from "./Components/User/User";
 
 
+
+function App() {
   return (
-    
+    <>
 
-    <div className="App">
-      <Router>
-        <Routes>
-          <Route exact path="/login-form" element={<LoginForm/>} />
-          <Route exact path="/add-bike" element={<AddBike/>} />
-          <Route exact path="/save-change" element={<SaveChange/>} />
-          <Route path="/" element={ <Navigate to="/login-form"/>} />
-        </Routes>
-      </Router>
-
-     
-     
-      
-      
-      
-      
-
-      
-      
-      
-    </div>
-
+    {/* <User/> */}
+    {/* <Admin/> */}
+    <SuperAdmin/>
+    </>
   );
-} 
+}
+
 export default App;

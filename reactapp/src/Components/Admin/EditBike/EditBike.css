@@ -1,0 +1,65 @@
+.admin_editBike{
+    background: #F2F2F2;
+    border-radius: 12px;
+    margin: 1rem auto;
+    width:600px;
+    height:auto;
+    padding: 1rem;
+    position: relative;
+}
+
+.custom-alert{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width:100%;
+    height:auto;
+}
+.admin_editBike .backBtn{
+    width:80%;
+    margin:0 auto;
+}
+
+.admin_editBike .backBtn Link{
+    text-decoration: none;
+}
+.editBike_bikeInfo{
+    width: 80%;
+    margin:1rem auto;
+    display: flex;
+    flex-direction: column;
+}
+.editBike_bikeInfo label{
+    font-family: 'Red Hat Text';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 25px;
+    color: #000000;
+
+}
+.editBike_bikeInfo input{
+    padding:0.3rem 1rem;
+    margin-top:0.5rem;
+    width:100%;
+    height:2.7rem;
+    background: #C4C4C4;    
+    border-radius: 7px;
+    outline: none;
+    border:none;
+}
+
+.editBike_button_container{
+    margin:2rem auto;
+    
+    width:80%;
+}
+
+.editBike_button{
+    background: #FFA500;
+    border-radius: 10px;
+    padding:0.5rem 2.5rem;
+    color:white;
+    width:100%;
+    
+}

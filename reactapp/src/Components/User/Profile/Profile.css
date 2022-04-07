@@ -1,0 +1,15 @@
+.custom-form{
+    display: flex;
+    border:none;
+    outline:none;
+    align-items: center;
+    justify-content: flex-start;
+    /* border:1px solid black; */
+    margin:2rem;
+}
+.custom-form label,
+.custom-form div{
+    font-size: 1.5rem;
+    width:50%;
+    /* border:1px solid red; */
+}

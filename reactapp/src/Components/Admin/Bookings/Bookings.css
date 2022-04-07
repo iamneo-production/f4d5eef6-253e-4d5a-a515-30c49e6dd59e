@@ -1,0 +1,28 @@
+.custom-table{
+    width:80%;
+    margin:1rem auto;
+    border-collapse: collapse;
+    border:none;
+}
+.custom-table thead{
+    border:none;
+}
+.custom-table thead tr{
+    background: #FFA500;
+    border-radius: 12px 12px 0px 0px;
+    border:none;
+    
+}
+.custom-table thead tr th{
+    color:#FFFFFF;
+    border:none;
+    text-align: center;
+}
+
+.custom-table tbody tr{
+    background: #F2F2F2;
+    border:none;
+}
+.custom-table tbody tr td{
+    text-align: center;
+}

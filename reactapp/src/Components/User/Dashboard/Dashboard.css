@@ -1,0 +1,13 @@
+.company{
+    /* border:1px solid black; */
+    width:auto;
+    background-color: rgb(248,248,248);
+}
+.company .left .companyImage{
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+}
+.company_name{
+    font-weight: bold;
+}

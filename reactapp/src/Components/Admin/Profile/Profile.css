@@ -1,0 +1,24 @@
+.card-body{
+    background-color: rgb(230, 230, 230);
+    margin:1rem;
+}
+
+.card-container{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin:1rem;
+}
+
+.card-container label,
+.adminDetails{
+    width:50%;
+    font-size: 22px;
+    
+}
+.card-container label{
+    font-weight: 500;
+}
+.adminDetails{
+    font-size: 20px;
+}
