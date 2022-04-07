@@ -1,0 +1,94 @@
+* {
+  margin: 0;
+  font-family: "Quicksand";
+  color :#333;
+}
+
+
+.navbar{
+  padding: 20px;
+  display:flex;
+  align-items: center;
+  max-width: 2280px;
+  margin-left: auto;
+  background-color: #ff941a;
+
+}
+
+.navbar h1{
+  color: white;
+  font-size: xx-large;
+  font-family:cambria, cochin, Georgia, Time, 'Times New Roman',serif;
+  }
+
+  .content{
+  
+    justify-content: center;
+    text-align: center;
+    background-color: #e7e9ec;
+    height:250px;
+    width:35%; 
+    padding:30px;
+    border-radius: 10px;
+    forced-color-adjust: white;
+    max-width: 600px;
+    margin:40px auto;
+  
+  }
+.Loginform{
+  justify-content: center;
+  text-align: center;
+  background-color: #e7e9ec;
+  height:400px;
+  width:35%; 
+  padding:30px;
+  border-radius: 10px;
+  forced-color-adjust: white;
+  max-width: 600px;
+  margin:40px auto;
+}
+.Loginmail-input{
+  margin-top:50px;
+}
+.Loginmail-input input{
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.Loginpass-input input{
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  margin-top:10px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.Submit-output{
+  padding-top:20px;
+}
+.Submit-output button{
+  width:60%;
+}
+.Back-key button{
+  position:absolute;
+  background-color: #e7e9ec;
+  color:rgb(0, 0, 0);
+  text-align: center;
+  top:10px;
+  width:90px;
+  left:-10px;
+  border: none;
+  cursor: pointer;
+  height:20px;
+}
+.signup{
+  padding-top:20px;
+  display:flex;
+  padding-left: 220px;
+}
