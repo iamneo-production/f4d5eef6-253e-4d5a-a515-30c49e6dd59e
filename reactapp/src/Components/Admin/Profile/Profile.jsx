@@ -1,4 +1,5 @@
 import React,{useState,useEffect} from "react";
+import { Link } from "react-router-dom";
 import { adminProfileApiCall } from "../../../ApiCalls/AdminDashboard";
 import "./Profile.css"
 
@@ -56,7 +57,7 @@ export default function Profile(){
                         :&nbsp;{profileData.companyName}
                         </div>
                     </div>
-                    <button className="btn btn-primary">Edit Profile</button>
+                    <Link to="/admin/editProfile" className="btn btn-primary">Edit Profile</Link>
                 </form>
             </div>
         </div>

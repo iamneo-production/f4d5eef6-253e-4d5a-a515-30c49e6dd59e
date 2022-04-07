@@ -207,21 +207,73 @@ public class AdminController {
 		
 	}
 	
-	@PutMapping("/profile/{adminID}")
-	public String editAdminProfile(Principal loggedInUser,@PathVariable Long adminID,
-								@RequestBody AdminModel adminModel) {
-		Optional<AdminModel> checkExistence = adminRepo.findById(adminID);
+	@PostMapping("/editProfile")
+	public String editAdminProfile(Principal loggedInUser,@RequestBody AdminModel adminModel) {
 		
-		boolean checkAuthorization = checkExistence.get().getEmail().hashCode()==loggedInUser.getName().hashCode();
+		//retrieving currently logged in admin 
+		AdminModel am = adminRepo.findAll().stream()
+				.filter(admin -> admin.getEmail().hashCode()==loggedInUser.getName().hashCode())
+				.findFirst().get();
 		
-		if(checkAuthorization&&checkExistence.isPresent())
-		{
+		Optional<AdminModel> checkAM = adminRepo.findAll().stream()
+				.filter(admin -> admin.getEmail().hashCode()==adminModel.getEmail().hashCode()).findFirst();
+		
+		if(checkAM.isPresent()&&checkAM.get().getId()!=am.getId())
+			return "Email already exists";
+		else {
+
+			
+			//setting all the fields which are not to be edited at present
+			adminModel.setId(am.getId());
+			adminModel.setPassword(am.getPassword());
+			adminModel.setCompanyImageURL(am.getCompanyImageURL());
+			adminModel.setUserRole(am.getUserRole());
+			adminModel.setEarnings(0);
+
+			//updating login model
+			LoginModel loginModel = loginRepo.findAll().stream()
+					.filter(login -> login.getUsername().hashCode()==loggedInUser.getName().hashCode())
+					.findFirst().get();
+			
+			loginModel.setEmail(adminModel.getEmail());
+			loginRepo.save(loginModel);
+			
+			
+			System.out.println(adminModel);
+			//updating the adminRepo
 			adminRepo.save(adminModel);
-			return "profile edited successfully";
-		}
-		else
-			throw new UsernameNotFoundException(String.format("Illegal Access by %s", loggedInUser.getName()));
+			
+			
+			//updating the company Name field in bikeRepo
+			List<BikeModel> bmList = bikeRepo.findAll();
+			for(int i=0;i<bmList.size();i++) {
+				if(bmList.get(i).getAdminID().equals(am.getId().toString()))
+				{
+					bmList.get(i).setCompanyName(adminModel.getCompanyName());
+					bikeRepo.save(bmList.get(i));
+				}
+			}
+			
+			//updating the company Name field in bookingsRepo
+			List<UserBookingsModel> ubmList = bookingsRepo.findAll();
+			
+			
+				for(BikeModel bm : bmList) {
+					
+					for(int i=0;i<ubmList.size();i++) {
+						if(bm.getBikeID()==ubmList.get(i).getBikeID())
+						{
+							ubmList.get(i).setCompanyName(bm.getCompanyName());
+							bookingsRepo.save(ubmList.get(i));
+							break;
+						}
+					}
+				}
+			
+			
 		
+			return "Profile Updated Successfully";
+		}
 		
 	}
 	

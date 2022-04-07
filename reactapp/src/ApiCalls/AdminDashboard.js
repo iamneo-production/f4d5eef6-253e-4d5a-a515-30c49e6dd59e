@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const usernameCredentials = "admin1@gmail.com";
+const usernameCredentials = "admin2updated@gmail.com";
 const passwordCredentials = "Admin@123"
 const token = Buffer.from(`${usernameCredentials}:${passwordCredentials}`, 'utf8').toString('base64')
 console.log(token)
@@ -106,3 +106,23 @@ export const adminGetUserBookingsApiCall=async()=>{
     return data.data;
 }
 
+export const adminEditProfileApiCall=async(name,email,mobileNumber,companyName,companyAddress)=>{
+   const adminData = {
+       email:await email,
+       mobileNumber:await mobileNumber,
+       sellerName:await name,
+       companyName:await companyName,
+       companyAddress:await companyAddress
+   }
+   
+  console.log(adminData); 
+    const data = await axios.post(season_url+"/editProfile",adminData,{
+        headers:{
+            "Authorization":`Basic ${token}`,
+            "Accept-Language":"en",
+            "Content-Type":"application/json",
+            "Access-Control-Allow-Origins":"*",
+        }
+    })
+    return data.data;
+}

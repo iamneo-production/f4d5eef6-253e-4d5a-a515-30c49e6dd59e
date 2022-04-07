@@ -46,7 +46,7 @@ public class AuthController {
 	public String adminSignUp(@RequestBody AdminModel adminModel) {
 		
 		String check=checkAdminModelEntries(adminModel);
-		
+		adminModel.setEarnings(0);
 		if(!checkAdminExistence(adminModel)&&check.equals("All Credentials are correct")) {
 			
 			
@@ -107,8 +107,6 @@ public class AuthController {
 			return "company address cannot be null or length cannot be less than  3";
 		if(adminModel.getCompanyImageURL()==null||adminModel.getCompanyAddress().length()<3)
 			return "company image url cannot be null or length cannot be less than  3";
-		if(adminModel.getEarnings()<=0)
-			return "Earnings cannot be zero or less";
 		if(adminModel.getEmail()==null||adminModel.getEmail().length()<3)
 			return "email cannot be null or length cannot be less than  3";
 		if(adminModel.getMobileNumber()==null||adminModel.getMobileNumber().length()!=10)
