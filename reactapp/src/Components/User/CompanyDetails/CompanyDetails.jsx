@@ -33,10 +33,10 @@ export default function CompanyDetails(props){
             </div>
 
             {bikes && bikes.map((element,index)=>{
-                return<Link key={index} to={"/bikeDetails/"+element.bikeID} style={{width:'fit-content'}}> 
+                return<Link className="custom-container" key={index} to={"/bikeDetails/"+element.bikeID} style={{width:'fit-content'}}> 
                 <div  className="container-fluid my-3 d-flex align-items-center justify-content-evenly company">
                     <div className="d-flex justify-content-around w-25 my-3 left">
-                       <div>{element.bikeNo}</div>
+                       <div>Bike Model&nbsp;:&nbsp;{element.bikeModelName}</div>
                         
                     </div>
                     <div className="my-3 w-25 text-center middle">
@@ -46,7 +46,7 @@ export default function CompanyDetails(props){
                         <div>{element.type}</div>
                     </div>
                     <div className="my-3 w-25 right">
-                        <div>{element.status}</div>
+                         <div style={{color:element.status.includes('Booked')?'red':'green'}}>{element.status}</div>
                     </div>
                     
                 </div>
