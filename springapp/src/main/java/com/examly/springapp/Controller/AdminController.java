@@ -77,13 +77,25 @@ public class AdminController {
 		AdminModel am = adminRepo.findAll().stream()
 					.filter(admin -> admin.getEmail().hashCode()==loggedInUser.getName().hashCode())
 					.findFirst().get();
-		Optional<BikeModel> bm = bikeRepo.findAll().stream().filter(bike -> bike.getAdminID().equals(am.getId().toString())).findFirst();
-		if(bm.isPresent()) {
+		List<BikeModel> bmList = new ArrayList<>();
+		
+		for(BikeModel bm : bikeRepo.findAll())
+		{
+			if(bm.getAdminID().equals(am.getId().toString()))
+				bmList.add(bm);
+		}
+		if(bmList.size()!=0) {
 			List<UserBookingsModel> ubmList = new ArrayList<>();
-			for(UserBookingsModel ubm : bookingsRepo.findAll())
-			{
-				if(bm.get().getBikeID()==ubm.getBikeID())
-					ubmList.add(ubm);
+			List<UserBookingsModel> tempUBMList = bookingsRepo.findAll();
+			for(BikeModel bm : bmList) {
+				
+				for(int i=0;i<tempUBMList.size();i++) {
+					if(bm.getBikeID()==tempUBMList.get(i).getBikeID())
+					{
+						ubmList.add(tempUBMList.get(i));
+						break;
+					}
+				}
 			}
 			return ubmList;
 		}

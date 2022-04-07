@@ -17,7 +17,7 @@ export default function Bookings(){
 
     return(
         <div className="admin_bookings">
-            <table>
+            <table className="table table-borderless custom-table">
                 <thead>
                     <tr>
                         <th>Bookings ID</th>
