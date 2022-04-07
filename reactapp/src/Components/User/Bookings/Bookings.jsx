@@ -53,29 +53,44 @@ export default function Bookings(){
              {statusMssg.show&& <div className="alert alert-success" role="alert">
                     {statusMssg.mssg}
              </div>}
+             <table className="table table-borderless custom-table">
+                 <thead>
+                     <tr>
+                         <th>Company Name</th>
+                         <th>Bike Number</th>
+                         <th>Bike Model</th>
+                         <th>Rent</th>
+                         <th>Unbook Bike</th>
+                     </tr>
+                 </thead>
+                 <tbody>
             {bookings.error!=="No bookings found"?
             bookings.bikesInfo&&bookings.bikesInfo.map((element,index)=>{
-                return <div key={index} className="card-body">
-                <div className="companyName">
+                return <tr key={index} >
+                <td >
                     {element.companyName}
-                </div>
-                <div className="companyName">
+                </td>
+                <td >
                     {element.bikeModelName}
-                </div>
+                </td>
                 
-                <div className="companyName">
+                <td >
                     {"Days"}
-                </div>
+                </td>
                 
-                <div className="companyName">
+                <td >
                     {element.bikePrice}
-                </div>
-                <button className="btn btn-primary" disabled={isSending} 
+                </td>
+                <td><button className="btn btn-primary" disabled={isSending} 
                 onClick={()=>unBookBikeHandler(element.bikeID)}>UnBook Bike</button>
+                </td>
                 
-            </div>
+            </tr>
+            
             })
             :<div>No bookings found</div>}
+            </tbody>
+        </table>
         </div>
     )
 }
